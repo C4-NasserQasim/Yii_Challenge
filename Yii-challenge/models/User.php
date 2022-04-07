@@ -3,14 +3,14 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
-
+// we use the activerecord to connect the class to the database
 class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
     public $id;
-    public $user_name;
+    public $username;
     public $age;
     public $email;
-    public $password_user;
+    public $passworduser;
 
     private static $users = [
         '100' => [
@@ -33,9 +33,15 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     /**
      * {@inheritdoc}
      */
+    //// to tell the class which table to use
+    public static function tableName()
+    {
+        return "users";
+    }
+
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return self::findOne($id);
     }
 
     /**
@@ -60,13 +66,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+      return self::findOne(["user_name"=>$username]);
     }
 
     /**
