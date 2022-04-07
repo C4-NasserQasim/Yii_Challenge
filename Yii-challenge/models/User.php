@@ -2,13 +2,15 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use yii\db\ActiveRecord;
+
+class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
     public $id;
     public $user_name;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    public $age;
+    public $email;
+    public $password_user;
 
     private static $users = [
         '100' => [
